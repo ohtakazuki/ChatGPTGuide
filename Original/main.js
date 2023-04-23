@@ -1,4 +1,4 @@
-const url = 'https://chatgptapp11.azurewebsites.net/api/ChatGPTForOriginal?code=m6-b10VA630K9UzhXrponZPPj04RWmZjGRaruBxq2zUFAzFumpJRZg=='
+const url = '<関数のURL>'
 
 // 非同期処理を行うためにasync/awaitを使用
 const asyncFunc = async (text) => {
