@@ -1,6 +1,6 @@
 // 必要なライブラリの読込
 const line = require('@line/bot-sdk');
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require('openai');
 
 // Line及びOpenAIのAPIを呼び出すクライアントオブジェクトを作成
 const lineConfig = {
@@ -8,10 +8,9 @@ const lineConfig = {
     channelSecret: process.env.LINE_SECRET,
 };
 const lineClient = new line.Client(lineConfig);
-const openaiConfig = new Configuration({
+const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
-const openaiClient = new OpenAIApi(openaiConfig);
 
 // メインの関数
 module.exports = async function (context, req) {
@@ -50,13 +49,13 @@ module.exports = async function (context, req) {
 // OpenAI APIが回答を生成
 async function createCompletion(text) {
     try {
-        const response = await openaiClient.createChatCompletion({
-            model: "gpt-3.5-turbo",
+        const completion = await openai.chat.completions.create({
             messages: [{ role: "user", content: text }],
-        });
-        console.log('openaiResponse: ', response);
+            model: "gpt-3.5-turbo",
+        });    
+        console.log('openaiResponse: ', completion);
         // 生成した回答のみを返す
-        return response.data.choices[0].message.content;
+        return completion.choices[0].message.content;
     } catch (err) {
         console.error(err);
     }
